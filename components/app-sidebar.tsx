@@ -148,12 +148,12 @@ export function AppSidebar() {
 
         <div className="mt-2 flex items-center gap-3 rounded-lg p-2 hover:bg-accent cursor-pointer">
           <Avatar className="h-8 w-8">
-            <AvatarImage src="/avatar-profile.jpg" />
-            <AvatarFallback>JD</AvatarFallback>
+            <AvatarImage src="/Image (Profile).png" />
+            <AvatarFallback>ZC</AvatarFallback>
           </Avatar>
           <div className="flex flex-1 flex-col">
-            <span className="text-sm font-medium">Jason D</span>
-            <span className="text-xs text-muted-foreground">jason.duong@mail.com</span>
+            <span className="text-sm font-medium">Zuma-Code</span>
+            <span className="text-xs text-muted-foreground">Zumar53@protonmail.com</span>
           </div>
           <CaretRight className="h-4 w-4 text-muted-foreground" />
         </div>

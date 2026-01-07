@@ -4,8 +4,8 @@ export function getAvatarUrl(name?: string): string | undefined {
 
   // Sync with avatar config in SidebarFooter (app-sidebar.tsx).
   // In this demo, only the primary user uses a real photo; others fall back to initials.
-  if (key === "jason duong" || key === "jason d" || key === "jd") {
-    return "/avatar-profile.jpg"
+  if (key === "zuma-code" || key === "zuma" || key === "zc") {
+    return "/Image (Profile).png"
   }
 
   return undefined

@@ -1,3 +1,4 @@
+This is a copy of the original project dashboard repository: https://github.com/Jason-uxui/project-dashboard that I have modified to use.
 <h1 align="center">Project Dashboard · Next.js + shadcn/ui</h1>
 
 <p align="center">
