@@ -7,14 +7,18 @@ import { ProjectTimeline } from "@/components/project-timeline"
 import { ProjectCardsView } from "@/components/project-cards-view"
 import { ProjectBoardView } from "@/components/project-board-view"
 import { ProjectWizard } from "@/components/project-wizard/ProjectWizard"
-import { computeFilterCounts, projects } from "@/lib/data/projects"
+import { computeFilterCounts, type Project } from "@/lib/data/projects"
 import { DEFAULT_VIEW_OPTIONS, type FilterChip, type ViewOptions } from "@/lib/view-options"
 import { chipsToParams, paramsToChips } from "@/lib/url/filters"
+import { supabase } from "@/lib/supabase"
 
 export function ProjectsContent() {
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
+
+  const [projects, setProjects] = useState<Project[]>([])
+  const [loading, setLoading] = useState(true)
 
   const [viewOptions, setViewOptions] = useState<ViewOptions>(DEFAULT_VIEW_OPTIONS)
 
@@ -24,6 +28,46 @@ export function ProjectsContent() {
 
   const isSyncingRef = useRef(false)
   const prevParamsRef = useRef<string>("")
+
+  useEffect(() => {
+    async function fetchProjects() {
+      try {
+        setLoading(true)
+        const { data, error } = await supabase
+          .from('projects')
+          .select('*')
+        
+        if (error) {
+          console.error('Error fetching projects:', error)
+          return
+        }
+
+        if (data) {
+          // Map database fields to our frontend Project type
+          const mappedProjects: Project[] = data.map((p: any) => ({
+            id: p.id,
+            name: p.name,
+            status: p.status,
+            priority: p.priority,
+            progress: p.progress || 0,
+            startDate: p.start_date ? new Date(p.start_date) : new Date(),
+            endDate: p.end_date ? new Date(p.end_date) : new Date(),
+            members: p.owner_id ? [p.owner_id] : [],
+            tags: [], // Tags not yet in DB schema
+            taskCount: 0, // Tasks not yet in DB schema
+            tasks: []
+          }))
+          setProjects(mappedProjects)
+        }
+      } catch (e) {
+        console.error('Unexpected error:', e)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchProjects()
+  }, [])
 
   const openWizard = () => {
     setIsWizardOpen(true)
